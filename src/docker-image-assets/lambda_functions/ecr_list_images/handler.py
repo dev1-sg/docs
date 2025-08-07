@@ -14,18 +14,21 @@ ECR_PUBLIC_URL = f"https://ecr-public.{AWS_ECR_PUBLIC_REGION}.amazonaws.com"
 
 TZ = ZoneInfo("Asia/Singapore")
 
+
 def singapore_time(dt):
     if not dt:
         return None
     return dt.astimezone(TZ).replace(microsecond=0).isoformat()
+
 
 def get_boto3_client():
     return boto3.client(
         "ecr-public",
         region_name=AWS_ECR_PUBLIC_REGION,
         endpoint_url=ECR_PUBLIC_URL,
-        config=Config(signature_version='v4')
+        config=Config(signature_version="v4"),
     )
+
 
 def list_repositories(client, prefix=None):
     paginator = client.get_paginator("describe_repositories")
@@ -34,20 +37,27 @@ def list_repositories(client, prefix=None):
             if not prefix or repo["repositoryName"].startswith(prefix):
                 yield repo["repositoryName"]
 
+
 def get_latest_image(client, repo_name):
     images = client.describe_images(repositoryName=repo_name).get("imageDetails", [])
     if not images:
         return "<none>", 0.0, "<none>", None
 
     valid_images = [img for img in images if img.get("imageTags")]
-    latest = max(valid_images or images, key=lambda img: img.get("imagePushedAt", datetime.min))
+    latest = max(
+        valid_images or images, key=lambda img: img.get("imagePushedAt", datetime.min)
+    )
 
-    tag = next((t for t in latest.get("imageTags", []) if t != "latest"), latest.get("imageTags", [])[0])
+    tag = next(
+        (t for t in latest.get("imageTags", []) if t != "latest"),
+        latest.get("imageTags", [])[0],
+    )
     size_mb = round(latest.get("imageSizeInBytes", 0) / (1024**2), 2)
     sha_digest = latest.get("imageDigest", "<none>")
     pushed_at = singapore_time(latest.get("imagePushedAt"))
 
     return tag or "<none>", size_mb, sha_digest, pushed_at
+
 
 def lambda_handler(event, context):
     client = get_boto3_client()
@@ -57,17 +67,19 @@ def lambda_handler(event, context):
     for repo_name in sorted(list_repositories(client, prefix)):
         tag, size_mb, sha_digest, pushed_at = get_latest_image(client, repo_name)
         group = repo_name.split("/")[0] if "/" in repo_name else "-"
-        images.append({
-            "image_name": repo_name,
-            "image_group": group,
-            "uri": f"{ECR_PUBLIC_URI}/{repo_name}",
-            "latest_tag": tag,
-            "latest_sha": sha_digest,
-            "size_mb": size_mb,
-            "last_push": pushed_at
-        })
+        images.append(
+            {
+                "image_name": repo_name,
+                "image_group": group,
+                "uri": f"{ECR_PUBLIC_URI}/{repo_name}",
+                "latest_tag": tag,
+                "latest_sha": sha_digest,
+                "size_mb": size_mb,
+                "last_push": pushed_at,
+            }
+        )
 
     return {
         "headers": {"Content-Type": "application/json"},
-        "body": json.dumps({f"docker-{prefix}-images": images}, indent=2)
+        "body": json.dumps({f"docker-{prefix}-images": images}, indent=2),
     }

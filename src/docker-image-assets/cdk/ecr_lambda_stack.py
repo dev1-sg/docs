@@ -7,8 +7,17 @@ from aws_cdk import (
 )
 from constructs import Construct
 
+
 class EcrPublicListStack(Stack):
-    def __init__(self, scope: Construct, id: str, *, rest_api: apigw.RestApi, images_resource: apigw.Resource, **kwargs):
+    def __init__(
+        self,
+        scope: Construct,
+        id: str,
+        *,
+        rest_api: apigw.RestApi,
+        images_resource: apigw.Resource,
+        **kwargs,
+    ):
         super().__init__(scope, id, **kwargs)
 
         alpine_lambda = self.create_ecr_lambda("alpine")
@@ -32,7 +41,8 @@ class EcrPublicListStack(Stack):
         function_name = f"EcrPublicListRepos-{repo_group}"
 
         lambda_fn = _lambda.Function(
-            self, function_name,
+            self,
+            function_name,
             function_name=function_name,
             runtime=_lambda.Runtime.PYTHON_3_12,
             handler="handler.lambda_handler",
@@ -45,12 +55,14 @@ class EcrPublicListStack(Stack):
             timeout=Duration.seconds(30),
         )
 
-        lambda_fn.add_to_role_policy(iam.PolicyStatement(
-            actions=[
-                "ecr-public:DescribeRepositories",
-                "ecr-public:DescribeImages",
-            ],
-            resources=["*"],
-        ))
+        lambda_fn.add_to_role_policy(
+            iam.PolicyStatement(
+                actions=[
+                    "ecr-public:DescribeRepositories",
+                    "ecr-public:DescribeImages",
+                ],
+                resources=["*"],
+            )
+        )
 
         return lambda_fn

@@ -6,26 +6,26 @@ image_groups = [
         "key": "alpine",
         "title": "docker-alpine-images",
         "description": "Repository for Docker Alpine Images",
-        "src_repo": "docker-alpine-images"
+        "src_repo": "docker-alpine-images",
     },
     {
         "key": "ci",
         "title": "docker-ci-images",
         "description": "Repository for Docker CI Images",
-        "src_repo": "docker-ci-images"
+        "src_repo": "docker-ci-images",
     },
     {
         "key": "devcontainer",
         "title": "devcontainers",
         "description": "Repository for devcontainers",
-        "src_repo": "devcontainers"
+        "src_repo": "devcontainers",
     },
     {
         "key": "ubuntu",
         "title": "docker-ubuntu-images",
         "description": "Repository for Docker Ubuntu Images",
-        "src_repo": "docker-ubuntu-images"
-    }
+        "src_repo": "docker-ubuntu-images",
+    },
 ]
 
 template = Template("""

@@ -7,9 +7,10 @@ app = App()
 api_stack = ApiGatewayStack(app, "ApiGatewayStack")
 
 EcrPublicListStack(
-    app, "EcrPublicListStack",
+    app,
+    "EcrPublicListStack",
     rest_api=api_stack.rest_api,
-    images_resource=api_stack.images_resource
+    images_resource=api_stack.images_resource,
 )
 
 app.synth()
