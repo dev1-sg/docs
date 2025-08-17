@@ -229,7 +229,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-d1sg-ecr-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-d1sg-ecr-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-d1sg-ecr-assets-${AWS::AccountId}-${AWS::Region}/debd797b1b1350cf48ef68db695a43d65e366d3ae6526d0b1a218a6e0339aa83.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-d1sg-ecr-assets-${AWS::AccountId}-${AWS::Region}/bddd682333c6d1df84e3e0f439ced2fb305c669d78ca26969c280eece28d84e3.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/d1sg-ecr/version",
         "additionalDependencies": [

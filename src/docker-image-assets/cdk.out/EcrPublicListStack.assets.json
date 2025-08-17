@@ -1,30 +1,30 @@
 {
   "version": "45.0.0",
   "files": {
-    "b826bb121c605881f3ae5c027ae433df4cca379b8567a1743ffc34bafd563954": {
+    "8bf4a67c2c3b516310e90c4a8d83dd10b39441c93756a600a8f2d55ad48b2155": {
       "displayName": "EcrPublicListRepos-alpine/Code",
       "source": {
-        "path": "asset.b826bb121c605881f3ae5c027ae433df4cca379b8567a1743ffc34bafd563954",
+        "path": "asset.8bf4a67c2c3b516310e90c4a8d83dd10b39441c93756a600a8f2d55ad48b2155",
         "packaging": "zip"
       },
       "destinations": {
-        "current_account-current_region-4690794e": {
+        "current_account-current_region-fa22f397": {
           "bucketName": "cdk-d1sg-ecr-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "b826bb121c605881f3ae5c027ae433df4cca379b8567a1743ffc34bafd563954.zip",
+          "objectKey": "8bf4a67c2c3b516310e90c4a8d83dd10b39441c93756a600a8f2d55ad48b2155.zip",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-d1sg-ecr-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
     },
-    "debd797b1b1350cf48ef68db695a43d65e366d3ae6526d0b1a218a6e0339aa83": {
+    "bddd682333c6d1df84e3e0f439ced2fb305c669d78ca26969c280eece28d84e3": {
       "displayName": "EcrPublicListStack Template",
       "source": {
         "path": "EcrPublicListStack.template.json",
         "packaging": "file"
       },
       "destinations": {
-        "current_account-current_region-a497e470": {
+        "current_account-current_region-f64982e2": {
           "bucketName": "cdk-d1sg-ecr-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "debd797b1b1350cf48ef68db695a43d65e366d3ae6526d0b1a218a6e0339aa83.json",
+          "objectKey": "bddd682333c6d1df84e3e0f439ced2fb305c669d78ca26969c280eece28d84e3.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-d1sg-ecr-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }

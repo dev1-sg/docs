@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -exo pipefail
+
 uv venv --clear
 source .venv/bin/activate
 uv pip install -r requirements.txt
