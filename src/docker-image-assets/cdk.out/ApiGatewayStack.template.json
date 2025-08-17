@@ -1,0 +1,1036 @@
+{
+ "Resources": {
+  "ListPublicResourcesApi15A795C0": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "EndpointConfiguration": {
+     "Types": [
+      "REGIONAL"
+     ]
+    },
+    "Name": "ListPublicResourcesApi"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Resource"
+   }
+  },
+  "ListPublicResourcesApiCloudWatchRole408A5EC8": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "apigateway.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+       ]
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/CloudWatchRole/Resource"
+   }
+  },
+  "ListPublicResourcesApiAccountDC17EB0B": {
+   "Type": "AWS::ApiGateway::Account",
+   "Properties": {
+    "CloudWatchRoleArn": {
+     "Fn::GetAtt": [
+      "ListPublicResourcesApiCloudWatchRole408A5EC8",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "ListPublicResourcesApi15A795C0"
+   ],
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Account"
+   }
+  },
+  "ListPublicResourcesApiDeploymentF0B172B327a7131b66c24bc1a821a5e8dd0f5018": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "Automatically created by the RestApi construct",
+    "RestApiId": {
+     "Ref": "ListPublicResourcesApi15A795C0"
+    }
+   },
+   "DependsOn": [
+    "ListPublicResourcesApiimagesalpineGET6896010D",
+    "ListPublicResourcesApiimagesalpine35F8D492",
+    "ListPublicResourcesApiimagesbaseGETEB3A19D2",
+    "ListPublicResourcesApiimagesbaseD205864C",
+    "ListPublicResourcesApiimagesciGETF121989E",
+    "ListPublicResourcesApiimagesciF4EECE79",
+    "ListPublicResourcesApiimagesdevcontainerGET050230C0",
+    "ListPublicResourcesApiimagesdevcontainer4693276A",
+    "ListPublicResourcesApiimages9119C1ED"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Deployment/Resource",
+    "aws:cdk:do-not-refactor": true
+   }
+  },
+  "ListPublicResourcesApiDeploymentStageprodCE3B3422": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "ListPublicResourcesApiDeploymentF0B172B327a7131b66c24bc1a821a5e8dd0f5018"
+    },
+    "RestApiId": {
+     "Ref": "ListPublicResourcesApi15A795C0"
+    },
+    "StageName": "prod"
+   },
+   "DependsOn": [
+    "ListPublicResourcesApiAccountDC17EB0B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/DeploymentStage.prod/Resource"
+   }
+  },
+  "ListPublicResourcesApiimages9119C1ED": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "ListPublicResourcesApi15A795C0",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "images",
+    "RestApiId": {
+     "Ref": "ListPublicResourcesApi15A795C0"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/Resource"
+   }
+  },
+  "ListPublicResourcesApiimagesalpine35F8D492": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "ListPublicResourcesApiimages9119C1ED"
+    },
+    "PathPart": "alpine",
+    "RestApiId": {
+     "Ref": "ListPublicResourcesApi15A795C0"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/alpine/Resource"
+   }
+  },
+  "ListPublicResourcesApiimagesalpineGETApiPermissionApiGatewayStackListPublicResourcesApi523C6CCBGETimagesalpine1BC43A6F": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "EcrPublicListStack:ExportsOutputFnGetAttEcrPublicListReposalpine318F1959Arn40CFB1AF"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "ListPublicResourcesApi15A795C0"
+       },
+       "/",
+       {
+        "Ref": "ListPublicResourcesApiDeploymentStageprodCE3B3422"
+       },
+       "/GET/images/alpine"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/alpine/GET/ApiPermission.ApiGatewayStackListPublicResourcesApi523C6CCB.GET..images.alpine"
+   }
+  },
+  "ListPublicResourcesApiimagesalpineGETApiPermissionTestApiGatewayStackListPublicResourcesApi523C6CCBGETimagesalpineEDF22CC7": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "EcrPublicListStack:ExportsOutputFnGetAttEcrPublicListReposalpine318F1959Arn40CFB1AF"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "ListPublicResourcesApi15A795C0"
+       },
+       "/test-invoke-stage/GET/images/alpine"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/alpine/GET/ApiPermission.Test.ApiGatewayStackListPublicResourcesApi523C6CCB.GET..images.alpine"
+   }
+  },
+  "ListPublicResourcesApiimagesalpineGET6896010D": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "EcrPublicListStack:ExportsOutputFnGetAttEcrPublicListReposalpine318F1959Arn40CFB1AF"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ListPublicResourcesApiimagesalpine35F8D492"
+    },
+    "RestApiId": {
+     "Ref": "ListPublicResourcesApi15A795C0"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/alpine/GET/Resource"
+   }
+  },
+  "ListPublicResourcesApiimagesbaseD205864C": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "ListPublicResourcesApiimages9119C1ED"
+    },
+    "PathPart": "base",
+    "RestApiId": {
+     "Ref": "ListPublicResourcesApi15A795C0"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/base/Resource"
+   }
+  },
+  "ListPublicResourcesApiimagesbaseGETApiPermissionApiGatewayStackListPublicResourcesApi523C6CCBGETimagesbaseF68DBD11": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "EcrPublicListStack:ExportsOutputFnGetAttEcrPublicListReposbase2CF9DF0BArn5EC72B67"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "ListPublicResourcesApi15A795C0"
+       },
+       "/",
+       {
+        "Ref": "ListPublicResourcesApiDeploymentStageprodCE3B3422"
+       },
+       "/GET/images/base"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/base/GET/ApiPermission.ApiGatewayStackListPublicResourcesApi523C6CCB.GET..images.base"
+   }
+  },
+  "ListPublicResourcesApiimagesbaseGETApiPermissionTestApiGatewayStackListPublicResourcesApi523C6CCBGETimagesbase3CA02533": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "EcrPublicListStack:ExportsOutputFnGetAttEcrPublicListReposbase2CF9DF0BArn5EC72B67"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "ListPublicResourcesApi15A795C0"
+       },
+       "/test-invoke-stage/GET/images/base"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/base/GET/ApiPermission.Test.ApiGatewayStackListPublicResourcesApi523C6CCB.GET..images.base"
+   }
+  },
+  "ListPublicResourcesApiimagesbaseGETEB3A19D2": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "EcrPublicListStack:ExportsOutputFnGetAttEcrPublicListReposbase2CF9DF0BArn5EC72B67"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ListPublicResourcesApiimagesbaseD205864C"
+    },
+    "RestApiId": {
+     "Ref": "ListPublicResourcesApi15A795C0"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/base/GET/Resource"
+   }
+  },
+  "ListPublicResourcesApiimagesciF4EECE79": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "ListPublicResourcesApiimages9119C1ED"
+    },
+    "PathPart": "ci",
+    "RestApiId": {
+     "Ref": "ListPublicResourcesApi15A795C0"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/ci/Resource"
+   }
+  },
+  "ListPublicResourcesApiimagesciGETApiPermissionApiGatewayStackListPublicResourcesApi523C6CCBGETimagesci330CB4D8": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "EcrPublicListStack:ExportsOutputFnGetAttEcrPublicListReposci360CD476Arn13FC98AE"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "ListPublicResourcesApi15A795C0"
+       },
+       "/",
+       {
+        "Ref": "ListPublicResourcesApiDeploymentStageprodCE3B3422"
+       },
+       "/GET/images/ci"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/ci/GET/ApiPermission.ApiGatewayStackListPublicResourcesApi523C6CCB.GET..images.ci"
+   }
+  },
+  "ListPublicResourcesApiimagesciGETApiPermissionTestApiGatewayStackListPublicResourcesApi523C6CCBGETimagesciEF2AEC68": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "EcrPublicListStack:ExportsOutputFnGetAttEcrPublicListReposci360CD476Arn13FC98AE"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "ListPublicResourcesApi15A795C0"
+       },
+       "/test-invoke-stage/GET/images/ci"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/ci/GET/ApiPermission.Test.ApiGatewayStackListPublicResourcesApi523C6CCB.GET..images.ci"
+   }
+  },
+  "ListPublicResourcesApiimagesciGETF121989E": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "EcrPublicListStack:ExportsOutputFnGetAttEcrPublicListReposci360CD476Arn13FC98AE"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ListPublicResourcesApiimagesciF4EECE79"
+    },
+    "RestApiId": {
+     "Ref": "ListPublicResourcesApi15A795C0"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/ci/GET/Resource"
+   }
+  },
+  "ListPublicResourcesApiimagesdevcontainer4693276A": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "ListPublicResourcesApiimages9119C1ED"
+    },
+    "PathPart": "devcontainer",
+    "RestApiId": {
+     "Ref": "ListPublicResourcesApi15A795C0"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/devcontainer/Resource"
+   }
+  },
+  "ListPublicResourcesApiimagesdevcontainerGETApiPermissionApiGatewayStackListPublicResourcesApi523C6CCBGETimagesdevcontainer93789244": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "EcrPublicListStack:ExportsOutputFnGetAttEcrPublicListReposdevcontainer9BA6EDA5ArnAD38A5A4"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "ListPublicResourcesApi15A795C0"
+       },
+       "/",
+       {
+        "Ref": "ListPublicResourcesApiDeploymentStageprodCE3B3422"
+       },
+       "/GET/images/devcontainer"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/devcontainer/GET/ApiPermission.ApiGatewayStackListPublicResourcesApi523C6CCB.GET..images.devcontainer"
+   }
+  },
+  "ListPublicResourcesApiimagesdevcontainerGETApiPermissionTestApiGatewayStackListPublicResourcesApi523C6CCBGETimagesdevcontainer45A874EE": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::ImportValue": "EcrPublicListStack:ExportsOutputFnGetAttEcrPublicListReposdevcontainer9BA6EDA5ArnAD38A5A4"
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "ListPublicResourcesApi15A795C0"
+       },
+       "/test-invoke-stage/GET/images/devcontainer"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/devcontainer/GET/ApiPermission.Test.ApiGatewayStackListPublicResourcesApi523C6CCB.GET..images.devcontainer"
+   }
+  },
+  "ListPublicResourcesApiimagesdevcontainerGET050230C0": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::ImportValue": "EcrPublicListStack:ExportsOutputFnGetAttEcrPublicListReposdevcontainer9BA6EDA5ArnAD38A5A4"
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ListPublicResourcesApiimagesdevcontainer4693276A"
+    },
+    "RestApiId": {
+     "Ref": "ListPublicResourcesApi15A795C0"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/ListPublicResourcesApi/Default/images/devcontainer/GET/Resource"
+   }
+  },
+  "CustomDomain21DD44B6": {
+   "Type": "AWS::ApiGateway::DomainName",
+   "Properties": {
+    "DomainName": "api.dev1-sg.com",
+    "EndpointConfiguration": {
+     "Types": [
+      "REGIONAL"
+     ]
+    },
+    "RegionalCertificateArn": "arn:aws:acm:ap-southeast-1:439152312044:certificate/00b71ea9-6363-44a8-8223-77a60ac200f3"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/CustomDomain/Resource"
+   }
+  },
+  "CustomDomainMapv1publicApiGatewayStackListPublicResourcesApiDeploymentStageprod6BC1557279990EC0": {
+   "Type": "AWS::ApiGatewayV2::ApiMapping",
+   "Properties": {
+    "ApiId": {
+     "Ref": "ListPublicResourcesApi15A795C0"
+    },
+    "ApiMappingKey": "v1/public",
+    "DomainName": {
+     "Ref": "CustomDomain21DD44B6"
+    },
+    "Stage": {
+     "Ref": "ListPublicResourcesApiDeploymentStageprodCE3B3422"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/CustomDomain/Map:v1--public=>ApiGatewayStackListPublicResourcesApiDeploymentStageprod6BC15572"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02P0W7CMAxFv4X3NGNFaM8dvLKh8gGTSU0xJHHUOFRV1X+fsjKVJ597bV/plrpcf+j1CvpYmOZeWDrr8SRg7qrGyKkzqKCPPyMEakGwh0GPNUapAqndxb9gZQwnL2qPwfLg0Et2X9RJoMXszfCf/wlxEc/MmQ8oV26y9aQ9OyD/Be7vblGTInB6rNnOAWxxUhbcuQG9u/gjdo5iJPZqqfEo86oKdIAQyLdT/vxOEpJM6jjIlf3bRr9v9HZ1i0RFl7yQQ13P8xcNUQpxOQEAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "ApiGatewayStack/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "ListPublicResourcesApiEndpoint9C776253": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "ListPublicResourcesApi15A795C0"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "ListPublicResourcesApiDeploymentStageprodCE3B3422"
+      },
+      "/"
+     ]
+    ]
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-3"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-4"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Equals": [
+      {
+       "Ref": "AWS::Region"
+      },
+      "us-west-2"
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/d1sg-ecr/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

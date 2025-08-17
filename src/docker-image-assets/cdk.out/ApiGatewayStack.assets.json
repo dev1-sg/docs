@@ -1,0 +1,20 @@
+{
+  "version": "45.0.0",
+  "files": {
+    "c7807934ef1f21b5cd0971adb0b7089ba7e3dd07754f2b2d9add63cbaabdda40": {
+      "displayName": "ApiGatewayStack Template",
+      "source": {
+        "path": "ApiGatewayStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region-ff0734bb": {
+          "bucketName": "cdk-d1sg-ecr-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "c7807934ef1f21b5cd0971adb0b7089ba7e3dd07754f2b2d9add63cbaabdda40.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-d1sg-ecr-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

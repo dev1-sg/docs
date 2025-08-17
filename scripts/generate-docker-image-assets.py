@@ -9,6 +9,12 @@ image_groups = [
         "src_repo": "docker-alpine-images",
     },
     {
+        "key": "base",
+        "title": "docker-base-images",
+        "description": "Repository for Docker Base Images",
+        "src_repo": "docker-base-images",
+    },
+    {
         "key": "ci",
         "title": "docker-ci-images",
         "description": "Repository for Docker CI Images",
@@ -19,12 +25,6 @@ image_groups = [
         "title": "devcontainers",
         "description": "Repository for devcontainers",
         "src_repo": "devcontainers",
-    },
-    {
-        "key": "ubuntu",
-        "title": "docker-ubuntu-images",
-        "description": "Repository for Docker Ubuntu Images",
-        "src_repo": "docker-ubuntu-images",
     },
 ]
 

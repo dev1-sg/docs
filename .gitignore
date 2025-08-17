@@ -1,5 +1,4 @@
-### Node.gitignore
-
+# Node.gitignore
 # Logs
 logs
 *.log
@@ -140,8 +139,8 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-### Python.gitignore
 
+# Python.gitignore
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -338,32 +337,8 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
-### Go.gitignore
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
 
-# Test binary, built with `go test -c`
-*.test
-
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
-
-# Dependency directories (remove the comment below to include it)
-# vendor/
-
-# Go workspace file
-go.work
-go.work.sum
-
-# bin
-bin/*
-!bin/.gitkeep
-
-### Global/VisualStudioCode.gitignore
+# Global/VisualStudioCode.gitignore
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -392,7 +367,8 @@ bin/*
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
-### Global/Windows.gitignore
+
+# Global/Windows.gitignore
 # Windows thumbnail cache files
 Thumbs.db
 Thumbs.db:encryptable
@@ -418,7 +394,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-### macOS.gitignore
+
+# macOS.gitignore
 # General
 .DS_Store
 .AppleDouble

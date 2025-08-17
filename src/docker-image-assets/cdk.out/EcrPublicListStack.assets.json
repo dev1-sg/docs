@@ -1,0 +1,34 @@
+{
+  "version": "45.0.0",
+  "files": {
+    "b826bb121c605881f3ae5c027ae433df4cca379b8567a1743ffc34bafd563954": {
+      "displayName": "EcrPublicListRepos-alpine/Code",
+      "source": {
+        "path": "asset.b826bb121c605881f3ae5c027ae433df4cca379b8567a1743ffc34bafd563954",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "current_account-current_region-4690794e": {
+          "bucketName": "cdk-d1sg-ecr-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "b826bb121c605881f3ae5c027ae433df4cca379b8567a1743ffc34bafd563954.zip",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-d1sg-ecr-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    },
+    "debd797b1b1350cf48ef68db695a43d65e366d3ae6526d0b1a218a6e0339aa83": {
+      "displayName": "EcrPublicListStack Template",
+      "source": {
+        "path": "EcrPublicListStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region-a497e470": {
+          "bucketName": "cdk-d1sg-ecr-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "debd797b1b1350cf48ef68db695a43d65e366d3ae6526d0b1a218a6e0339aa83.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-d1sg-ecr-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
